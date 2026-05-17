@@ -14,7 +14,6 @@
 .env.development
 .env.production
 **/appsettings.Development.json
-**/appsettings.Production.json
 
 # Next.js
 frontend/.next/
