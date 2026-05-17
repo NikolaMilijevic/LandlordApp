@@ -10,6 +10,16 @@
 *.userosscache
 *.sln.docstates
 *.env
+.env.local
+.env.development
+.env.production
+**/appsettings.Development.json
+**/appsettings.Production.json
+
+# Next.js
+frontend/.next/
+frontend/node_modules/
+frontend/.env*.local
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
