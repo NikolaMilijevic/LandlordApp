@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Landlord App",
-  description: "Property management for small landlords",
+  title: "Landlord - Manage. Track. Grow.",
+  description: "Simple property management for landlords with 1–10 units.",
 };
 
 export default function RootLayout({
@@ -32,7 +32,10 @@ export default function RootLayout({
         lang="en"
         className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", dmSans.variable)}
       >
-        <body className="min-h-full flex flex-col">{children}</body>
+        <body className="min-h-full flex flex-col">
+          {children}
+          <script async src="https://tally.so/widgets/embed.js"></script>  
+        </body>
       </html>
     </ClerkProvider>
   );
