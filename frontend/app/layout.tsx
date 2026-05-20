@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Landlord - Manage. Track. Grow.",
+  title: "Lessor - Manage. Track. Grow.",
   description: "Simple property management for landlords with 1–10 units.",
 };
 

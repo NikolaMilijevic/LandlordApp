@@ -12,14 +12,14 @@ export default function Home() {
       <nav className="flex items-center justify-between px-10 py-4 bg-navy border-b border-white/10">
         <div className="flex items-center gap-3">
           <Image
-            src="/landlord_logo_only_transparent.png"
-            alt="Landlord logo"
+            src="/lessor_logo_only_transparent.png"
+            alt="Lessor logo"
             width={36}
             height={36}
             className="object-contain brightness-0 invert"
           />
           <span className="font-semibold text-lg text-white tracking-tight">
-            Landlord
+            Lessor
           </span>
         </div>
       </nav>
@@ -249,26 +249,26 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer className="px-10 py-8 border-t border-gray-200 bg-white">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/landlord_logo_transparent1.png"
-              alt="Landlord logo"
-              width={48}
-              height={48}
-              className="object-contain"
-            />
-            <div>
-              <div className="font-semibold text-navy text-sm">Landlord</div>
-              <div className="text-xs text-navy/50">Manage. Track. Grow.</div>
-            </div>
-          </div>
-          <div className="text-xs text-navy/40">
-            © {new Date().getFullYear()} Landlord. All rights reserved. 
-          </div>
-        </div>
-      </footer>
+<footer className="px-6 sm:px-10 py-8 border-t border-gray-200 bg-white">
+  <div className="mx-auto flex flex-col items-center gap-6 sm:flex-row sm:justify-between sm:gap-4">
+    <div className="flex items-center gap-3">
+      <Image
+        src="/lessor_logo_transparent.png"
+        alt="Lessor logo"
+        width={44}
+        height={44}
+        className="object-contain"
+      />
+      <div>
+        <div className="font-semibold text-navy text-sm">Lessor</div>
+        <div className="text-xs text-navy/50">Manage. Track. Grow.</div>
+      </div>
+    </div>
+    <div className="text-xs text-navy/40 text-center">
+      © {new Date().getFullYear()} Lessor. All rights reserved.
+    </div>
+  </div>
+</footer>
 
     </main>
   );
