@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useParams, useRouter } from "next/navigation";
 import { createApiClient, RentalProperty } from "@/lib/api";
 import Link from "next/link";
-import { ArrowLeft, Plus, User, Trash2 } from "lucide-react";
+import { ArrowLeft, Plus, User, Trash2, Pencil } from "lucide-react";
 
 export default function PropertyDetailPage() {
   const { getToken } = useAuth();
@@ -55,22 +55,30 @@ export default function PropertyDetailPage() {
 
   return (
     <div className="min-h-screen bg-softGray">
-      <nav className="bg-navy px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="text-white/60 hover:text-white transition">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <span className="text-white font-semibold text-lg">
-            {property.address}
-          </span>
-        </div>
-        <button
-          onClick={handleDeleteProperty}
-          className="text-white/40 hover:text-red-400 transition"
-        >
-          <Trash2 className="w-5 h-5" />
-        </button>
-      </nav>
+        <nav className="bg-navy px-8 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+                <Link href="/dashboard" className="text-white/60 hover:text-white transition">
+                <ArrowLeft className="w-5 h-5" />
+                </Link>
+                <span className="text-white font-semibold text-lg">
+                {property.address}
+                </span>
+            </div>
+            <div className="flex items-center gap-3">
+                <Link
+                href={`/dashboard/properties/${id}/edit`}
+                className="text-white/60 hover:text-white transition"
+                >
+                <Pencil className="w-5 h-5" />
+                </Link>
+                <button
+                onClick={handleDeleteProperty}
+                className="text-white/40 hover:text-red-400 transition"
+                >
+                <Trash2 className="w-5 h-5" />
+                </button>
+            </div>
+        </nav>
 
       <div className="max-w-4xl mx-auto px-6 py-10">
 

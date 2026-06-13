@@ -81,6 +81,16 @@ export function createApiClient(token: string) {
       return res.json();
     },
 
+    updateProperty: async (id: string, data: { address: string; city: string; type: string }): Promise<RentalProperty> => {
+    const res = await fetch(`${API_URL}/api/properties/${id}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to update property");
+    return res.json();
+    },
+
     deleteProperty: async (id: string): Promise<void> => {
       const res = await fetch(`${API_URL}/api/properties/${id}`, {
         method: "DELETE",
@@ -103,6 +113,16 @@ export function createApiClient(token: string) {
       });
       if (!res.ok) throw new Error("Failed to create tenant");
       return res.json();
+    },
+
+    updateTenant: async (id: string, data: Omit<CreateTenantData, "unitId">): Promise<Tenant> => {
+    const res = await fetch(`${API_URL}/api/tenants/${id}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to update tenant");
+    return res.json();
     },
 
     deleteTenant: async (id: string): Promise<void> => {
