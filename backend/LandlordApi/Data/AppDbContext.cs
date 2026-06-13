@@ -7,7 +7,7 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<Property> Properties => Set<Property>();
+    public DbSet<RentalProperty> Properties => Set<RentalProperty>();
     public DbSet<Unit> Units => Set<Unit>();
     public DbSet<Tenant> Tenants => Set<Tenant>();
     public DbSet<RentRecord> RentRecords => Set<RentRecord>();
@@ -18,7 +18,7 @@ public class AppDbContext : DbContext
     {
         modelBuilder.HasPostgresExtension("uuid-ossp");
 
-        modelBuilder.Entity<Property>()
+        modelBuilder.Entity<RentalProperty>()
             .Property(p => p.Id)
             .HasDefaultValueSql("uuid_generate_v4()");
 
