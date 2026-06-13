@@ -10,5 +10,5 @@ public class Document
     public string FileUrl { get; set; } = string.Empty;
     public DateTime? ExpiryDate { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public Property Property { get; set; } = null!;
+    public RentalProperty Property { get; set; } = null!;
 }
