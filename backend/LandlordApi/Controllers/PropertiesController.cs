@@ -40,7 +40,8 @@ public class PropertiesController : BaseController
                 u.Id,
                 u.Label,
                 u.MonthlyRent,
-                u.CreatedAt
+                u.CreatedAt,
+                new List<TenantResponseDto>()
             )).ToList()
         ));
 
@@ -70,7 +71,19 @@ public class PropertiesController : BaseController
                 u.Id,
                 u.Label,
                 u.MonthlyRent,
-                u.CreatedAt
+                u.CreatedAt,
+                u.Tenants?.Select(t => new TenantResponseDto(
+                    t.Id,
+                    t.UnitId,
+                    t.Name,
+                    t.Email,
+                    t.Phone,
+                    t.LeaseStart,
+                    t.LeaseEnd,
+                    t.Deposit,
+                    t.RentDueDay,
+                    t.CreatedAt
+                )).ToList() ?? new List<TenantResponseDto>()
             )).ToList()
         );
 
@@ -112,7 +125,8 @@ public class PropertiesController : BaseController
                 u.Id,
                 u.Label,
                 u.MonthlyRent,
-                u.CreatedAt
+                u.CreatedAt,
+                new List<TenantResponseDto>()
             )).ToList()
         );
 

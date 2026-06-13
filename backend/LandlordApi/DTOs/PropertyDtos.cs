@@ -25,5 +25,6 @@ public record UnitResponseDto(
     Guid Id,
     string Label,
     decimal MonthlyRent,
-    DateTime CreatedAt
+    DateTime CreatedAt,
+    List<TenantResponseDto> Tenants
 );

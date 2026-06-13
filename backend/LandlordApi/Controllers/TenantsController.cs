@@ -67,8 +67,8 @@ public class TenantsController : BaseController
             Name = dto.Name,
             Email = dto.Email,
             Phone = dto.Phone,
-            LeaseStart = dto.LeaseStart,
-            LeaseEnd = dto.LeaseEnd,
+            LeaseStart = DateTime.SpecifyKind(dto.LeaseStart, DateTimeKind.Utc),
+            LeaseEnd = DateTime.SpecifyKind(dto.LeaseEnd, DateTimeKind.Utc),
             Deposit = dto.Deposit,
             RentDueDay = dto.RentDueDay,
             CreatedAt = DateTime.UtcNow
