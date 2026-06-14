@@ -2,16 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { createApiClient, Tenant } from "@/lib/api";
 import Link from "next/link";
 import { ArrowLeft, Mail, Phone, Calendar, Banknote, Trash2, Pencil } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 export default function TenantDetailPage() {
   const { getToken } = useAuth();
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
+  const searchParams = useSearchParams();
+  const fromPropertyId = searchParams.get("from");
 
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,12 +32,15 @@ export default function TenantDetailPage() {
   }, [getToken, id]);
 
   const handleDelete = async () => {
-    if (!confirm("Remove this tenant?")) return;
     const token = await getToken();
     if (!token) return;
     const api = createApiClient(token);
     await api.deleteTenant(id);
-    router.back();
+    if (fromPropertyId) {
+      router.push(`/dashboard/properties/${fromPropertyId}`);
+    } else {
+      router.push("/dashboard");
+    }
   };
 
   const formatDate = (dateStr: string) =>
@@ -71,29 +77,19 @@ export default function TenantDetailPage() {
   return (
     <div className="min-h-screen bg-softGray">
       <nav className="bg-navy px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
           <button
-            onClick={() => router.back()}
+            onClick={() => {
+              if (fromPropertyId) {
+                router.push(`/dashboard/properties/${fromPropertyId}`);
+              } else {
+                router.push("/dashboard");
+              }
+            }}
             className="text-white/60 hover:text-white transition"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <span className="text-white font-semibold text-lg">{tenant.name}</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href={`/dashboard/tenants/${id}/edit`}
-            className="text-white/60 hover:text-white transition"
-          >
-            <Pencil className="w-5 h-5" />
-          </Link>
-          <button
-            onClick={handleDelete}
-            className="text-white/40 hover:text-red-400 transition"
-          >
-            <Trash2 className="w-5 h-5" />
-          </button>
-        </div>
       </nav>
 
       <div className="max-w-2xl mx-auto px-6 py-10 space-y-4">
@@ -114,9 +110,45 @@ export default function TenantDetailPage() {
 
         {/* Contact */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6">
-          <p className="text-xs font-medium text-navy/40 uppercase tracking-wide mb-4">
-            Contact
-          </p>
+          <div className="flex justify-between items-center mb-4">
+            <p className="text-xs font-medium text-navy/40 uppercase tracking-wide mb-4">
+              Contact
+            </p>
+            <div className="flex flex-direction-row gap-2">
+              <Link
+                href={`/dashboard/tenants/${id}/edit`}
+                className="flex items-center gap-1.5 text-xs text-yellow-400 hover:text-yellow-300 border border-yellow-200 px-3 py-1.5 rounded-lg hover:border-yellow-300 transition"
+              >
+                <Pencil className="w-3 h-3" />
+                Edit
+              </Link>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button className="flex items-center gap-1.5 text-xs text-red-400 hover:text-red-500 border border-red-200 px-3 py-1.5 rounded-lg hover:border-red-300 transition">
+                    <Trash2 className="w-3 h-3" />
+                    Delete
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Remove tenant</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to remove {tenant.name}? Their lease and payment history will be deleted. This cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDelete}
+                      className="bg-red-500 hover:bg-red-600 text-white"
+                    >
+                      Remove tenant
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </div>
           <div className="space-y-3">
             <Link
               href={`mailto:${tenant.email}`}
