@@ -60,7 +60,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:3000",
-            "https://lessor.vercel.app/"
+            "https://lessor.vercel.app"
         )
         .AllowAnyHeader()
         .AllowAnyMethod();
