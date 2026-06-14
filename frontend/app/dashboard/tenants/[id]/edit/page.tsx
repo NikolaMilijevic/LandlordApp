@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
-import { useParams, useRouter } from "next/navigation";
-import { createApiClient, Tenant } from "@/lib/api";
-import Link from "next/link";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { createApiClient } from "@/lib/api";
 import { ArrowLeft } from "lucide-react";
 
-export default function EditTenantPage() {
+function EditTenantContent() {
   const { getToken } = useAuth();
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
+  const searchParams = useSearchParams();
+  const fromPropertyId = searchParams.get("from");
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -55,7 +56,7 @@ export default function EditTenantPage() {
       deposit: parseFloat(deposit) || 0,
       rentDueDay: parseInt(rentDueDay) || 1,
     });
-    router.push(`/dashboard/tenants/${id}`);
+    router.push(`/dashboard/tenants/${id}?from=${fromPropertyId ?? ""}`);
   };
 
   const inputClass =
@@ -72,12 +73,12 @@ export default function EditTenantPage() {
   return (
     <div className="min-h-screen bg-softGray">
       <nav className="bg-navy px-8 py-4 flex items-center gap-4">
-        <Link
-          href={`/dashboard/tenants/${id}`}
+        <button
+          onClick={() => router.push(`/dashboard/tenants/${id}?from=${fromPropertyId ?? ""}`)}
           className="text-white/60 hover:text-white transition"
         >
           <ArrowLeft className="w-5 h-5" />
-        </Link>
+        </button>
         <span className="text-white font-semibold text-lg">Edit tenant</span>
       </nav>
 
@@ -131,5 +132,17 @@ export default function EditTenantPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function EditTenantPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-softGray flex items-center justify-center">
+        <p className="text-navy/40">Loading...</p>
+      </div>
+    }>
+      <EditTenantContent />
+    </Suspense>
   );
 }

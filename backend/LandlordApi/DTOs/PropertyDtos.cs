@@ -28,3 +28,16 @@ public record UnitResponseDto(
     DateTime CreatedAt,
     List<TenantResponseDto> Tenants
 );
+
+public record UpdatePropertyDto(
+    string Address,
+    string City,
+    string Type,
+    List<UpdateUnitDto>? Units
+);
+
+public record UpdateUnitDto(
+    Guid? Id,
+    string Label,
+    decimal MonthlyRent
+);

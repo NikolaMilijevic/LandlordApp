@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { createApiClient, RentalProperty } from "@/lib/api";
 import Link from "next/link";
 import { ArrowLeft, Plus, User, Trash2, Pencil } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 export default function PropertyDetailPage() {
   const { getToken } = useAuth();
@@ -29,7 +30,6 @@ export default function PropertyDetailPage() {
   }, [getToken, id]);
 
   const handleDeleteProperty = async () => {
-    if (!confirm("Delete this property and all its data?")) return;
     const token = await getToken();
     if (!token) return;
     const api = createApiClient(token);
@@ -56,47 +56,65 @@ export default function PropertyDetailPage() {
   return (
     <div className="min-h-screen bg-softGray">
         <nav className="bg-navy px-8 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-                <Link href="/dashboard" className="text-white/60 hover:text-white transition">
-                <ArrowLeft className="w-5 h-5" />
-                </Link>
-                <span className="text-white font-semibold text-lg">
-                {property.address}
-                </span>
-            </div>
-            <div className="flex items-center gap-3">
-                <Link
-                href={`/dashboard/properties/${id}/edit`}
-                className="text-white/60 hover:text-white transition"
-                >
-                <Pencil className="w-5 h-5" />
-                </Link>
-                <button
-                onClick={handleDeleteProperty}
-                className="text-white/40 hover:text-red-400 transition"
-                >
-                <Trash2 className="w-5 h-5" />
-                </button>
-            </div>
+          <Link href="/dashboard" className="text-white/60 hover:text-white transition">
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
+          <span className="text-white font-semibold text-lg">
+          {property.address}
+          </span>
         </nav>
 
       <div className="max-w-4xl mx-auto px-6 py-10">
 
         {/* Property info */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <p className="text-xs text-navy/40 uppercase tracking-wide mb-1">City</p>
-              <p className="font-semibold text-navy">{property.city}</p>
+          <div className="flex justify-between items-start mb-4 gap-2">
+            <div className="grid grid-cols-3 gap-4 text-center flex-1">
+              <div>
+                <p className="text-xs text-navy/40 uppercase tracking-wide mb-1">City</p>
+                <p className="font-semibold text-navy">{property.city}</p>
+              </div>
+              <div>
+                <p className="text-xs text-navy/40 uppercase tracking-wide mb-1">Type</p>
+                <p className="font-semibold text-navy">{property.type}</p>
+              </div>
+              <div>
+                <p className="text-xs text-navy/40 uppercase tracking-wide mb-1">Units</p>
+                <p className="font-semibold text-navy">{property.units.length}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs text-navy/40 uppercase tracking-wide mb-1">Type</p>
-              <p className="font-semibold text-navy">{property.type}</p>
-            </div>
-            <div>
-              <p className="text-xs text-navy/40 uppercase tracking-wide mb-1">Units</p>
-              <p className="font-semibold text-navy">{property.units.length}</p>
-            </div>
+            <Link
+              href={`/dashboard/properties/${id}/edit`}
+              className="ml-4 flex items-center gap-1.5 text-xs text-yellow-400 hover:text-yellow-300 border border-yellow-200 px-3 py-1.5 rounded-lg hover:border-yellow-300 transition"
+            >
+              <Pencil className="w-3 h-3" />
+              Edit
+            </Link>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <button className="flex items-center gap-1.5 text-xs text-red-400 hover:text-red-500 border border-red-200 px-3 py-1.5 rounded-lg hover:border-red-300 transition">
+                  <Trash2 className="w-3 h-3" />
+                  Delete
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete property</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete {property.address}? This will also delete all units, tenants and their data. This cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleDeleteProperty}
+                    className="bg-red-500 hover:bg-red-600 text-white"
+                  >
+                    Delete property
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
 
@@ -127,7 +145,7 @@ export default function PropertyDetailPage() {
                   {unit.tenants.map((tenant) => (
                     <Link
                       key={tenant.id}
-                      href={`/dashboard/tenants/${tenant.id}`}
+                      href={`/dashboard/tenants/${tenant.id}?from=${id}`}
                       className="flex items-center gap-3 p-3 bg-softGray rounded-xl hover:bg-lightBlue transition"
                     >
                       <div className="w-8 h-8 bg-lightBlue rounded-full flex items-center justify-center">

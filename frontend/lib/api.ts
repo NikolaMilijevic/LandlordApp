@@ -51,6 +51,13 @@ export interface CreateTenantData {
   rentDueDay: number;
 }
 
+export interface UpdatePropertyData {
+  address: string;
+  city: string;
+  type: string;
+  units: { id?: string; label: string; monthlyRent: number }[];
+}
+
 // API client factory — call this inside components with the token
 export function createApiClient(token: string) {
   const headers = {
@@ -81,15 +88,19 @@ export function createApiClient(token: string) {
       return res.json();
     },
 
-    updateProperty: async (id: string, data: { address: string; city: string; type: string }): Promise<RentalProperty> => {
-    const res = await fetch(`${API_URL}/api/properties/${id}`, {
-        method: "PUT",
-        headers,
-        body: JSON.stringify(data),
-    });
-    if (!res.ok) throw new Error("Failed to update property");
-    return res.json();
-    },
+    updateProperty: async (id: string, data: UpdatePropertyData): Promise<RentalProperty> => {
+  const res = await fetch(`${API_URL}/api/properties/${id}`, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("Update property error:", text);
+    throw new Error("Failed to update property");
+  }
+  return res.json();
+},
 
     deleteProperty: async (id: string): Promise<void> => {
       const res = await fetch(`${API_URL}/api/properties/${id}`, {
