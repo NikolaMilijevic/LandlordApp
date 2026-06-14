@@ -14,6 +14,18 @@ The project covers the full product development lifecycle: idea validation, mark
 
 ---
 
+## Screenshots
+
+<h2>Screenshots</h2>
+
+<p align="center">
+  <img src="./screenshots/dashboard.png" width="30%">
+  <img src="./screenshots/properties.png" width="30%">
+  <img src="./screenshots/tenants.png" width="30%">
+</p>
+
+---
+
 ## Tech Stack
 
 ### Frontend
@@ -207,8 +219,8 @@ Lessor is being built as a real product, not just a portfolio project:
 🚧 **Currently in development — Week 2 of 4 to MVP launch**
 
 - ✅ Week 1 — Infrastructure, auth, CI/CD, walking skeleton deployed
-- 🔄 Week 2 — Properties and tenants CRUD (in progress)
-- ⬜ Week 3 — Rent tracking, overdue detection, email alerts
+- ✅ Week 2 — Properties and tenants CRUD (in progress)
+- 🔄 Week 3 — Rent tracking, overdue detection, email alerts
 - ⬜ Week 4 — Document storage, Paddle billing, launch
 
 ---
