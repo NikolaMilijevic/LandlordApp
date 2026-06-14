@@ -151,12 +151,10 @@ public class PropertiesController : BaseController
 
         if (dto.Units != null)
         {
-            // Get all existing units for this property
             var existingUnits = await _db.Units
                 .Where(u => u.PropertyId == id)
                 .ToListAsync();
 
-            // Find units to delete — exist in DB but not in the incoming list
             var incomingIds = dto.Units
                 .Where(u => u.Id.HasValue)
                 .Select(u => u.Id!.Value)
@@ -172,7 +170,6 @@ public class PropertiesController : BaseController
                 await _db.SaveChangesAsync();
             }
 
-            // Update existing and add new units
             foreach (var unitDto in dto.Units)
             {
                 if (unitDto.Id.HasValue)
@@ -202,7 +199,6 @@ public class PropertiesController : BaseController
             }
         }
 
-        // Load fresh data for response
         var updated = await _db.Properties
             .Where(p => p.Id == id)
             .Include(p => p.Units)
