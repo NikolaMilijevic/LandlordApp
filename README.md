@@ -14,8 +14,6 @@ The project covers the full product development lifecycle: idea validation, mark
 
 ---
 
-## Screenshots
-
 <h2>Screenshots</h2>
 
 <p align="center">
